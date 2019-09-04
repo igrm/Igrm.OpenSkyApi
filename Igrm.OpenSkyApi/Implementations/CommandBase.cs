@@ -1,23 +1,34 @@
 ﻿using Igrm.OpenSkyApi.Constants;
 using Igrm.OpenSkyApi.Exceptions;
 using Igrm.OpenSkyApi.Interfaces;
+using Igrm.OpenSkyApi.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 
 namespace Igrm.OpenSkyApi.Implementations
 {
-    public abstract class CommandBase : ICommand
+    public abstract class CommandBase<T, U> : ICommandWithResult<U>
     {
-        public abstract void Execute();
-
         protected String BaseUri { get { return $"{OpenSkyApiConstants.PROTOCOL}{OpenSkyApiConstants.HOST}"; } }
 
-        protected HttpClient _httpClient;
+        public U Result { get; set; }
 
-        protected T ProcessRequest<T>(HttpRequestMessage httpRequestMessage)
+        private readonly HttpClient _httpClient;
+        private readonly BasicAuthenticationHeader _authHeader;
+        private readonly T _requestModel;
+        private readonly string _endPoint;
+
+        public CommandBase(HttpClient httpClient, BasicAuthenticationHeader authHeader, T requestModel, string endPoint)
+        {
+            _httpClient = httpClient;
+            _authHeader = authHeader;
+            _requestModel = requestModel;
+            _endPoint = endPoint;
+        }
+
+        protected U ProcessRequest(HttpRequestMessage httpRequestMessage)
         {
             var httpResponseMessageTask = _httpClient.SendAsync(httpRequestMessage);
             httpResponseMessageTask.Wait();
@@ -25,11 +36,24 @@ namespace Igrm.OpenSkyApi.Implementations
             {
                 var stringTask = httpResponseMessageTask.Result.Content.ReadAsStringAsync();
                 stringTask.Wait();
-                return JsonConvert.DeserializeObject<T>(stringTask.Result);
+                return JsonConvert.DeserializeObject<U>(stringTask.Result);
             }
             else
             {
                 throw new RequestFailedException($"{httpResponseMessageTask.Result.StatusCode} {httpResponseMessageTask.Result.ReasonPhrase}");
+            }
+        }
+
+        public void Execute()
+        {
+            using (HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{BaseUri}{_endPoint}"))
+            {
+                if (_authHeader != null)
+                    httpRequestMessage.Headers.Authorization = _authHeader.GetAuthenticationHeaderValue();
+                var parameterList = _requestModel as List<KeyValuePair<string, string>>;
+                if (parameterList != null) httpRequestMessage.Content = new FormUrlEncodedContent(parameterList);
+                else throw new ParameterListException($"Can't cast model {_requestModel.GetType().Name} to list of parameters");
+                Result = ProcessRequest(httpRequestMessage);
             }
         }
     }

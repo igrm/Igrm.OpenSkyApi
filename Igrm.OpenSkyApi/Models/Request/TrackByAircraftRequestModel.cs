@@ -15,5 +15,14 @@ namespace Igrm.OpenSkyApi.Models.Request
         /// Unix time in seconds since epoch. It can be any time between start and end of a known flight. If time = 0, get the live track if there is any flight ongoing for the given aircraft.
         /// </summary>
         public int? Time { get; set; }
+
+        public static explicit operator List<KeyValuePair<string, string>>(TrackByAircraftRequestModel requestModel)
+        {
+            List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>>();
+            pairs.Add(new KeyValuePair<string, string>("icao24", requestModel.Icao24));
+            if (requestModel.Time.HasValue)
+                pairs.Add(new KeyValuePair<string, string>("time", requestModel.Time.Value.ToString()));
+            return pairs;
+        }
     }
 }
