@@ -51,8 +51,7 @@ namespace Igrm.OpenSkyApi.Implementations
                 if (_authHeader != null)
                     httpRequestMessage.Headers.Authorization = _authHeader.GetAuthenticationHeaderValue();
                 var parameterList = (List<KeyValuePair<string, string>>)_requestModel;
-                if (parameterList != null) httpRequestMessage.Content = new FormUrlEncodedContent(parameterList);
-                else throw new ParameterListException($"Can't cast model {_requestModel.GetType().Name} to list of parameters");
+                httpRequestMessage.Content = new FormUrlEncodedContent(parameterList);
                 Result = ProcessRequest(httpRequestMessage);
             }
         }
