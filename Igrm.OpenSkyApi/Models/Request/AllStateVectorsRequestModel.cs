@@ -30,6 +30,11 @@ namespace Igrm.OpenSkyApi.Models.Request
 
     public class AllStateVectorsRequestModel
     {
+        public AllStateVectorsRequestModel()
+        {
+            Icao24 = new List<string>();
+        }
+
         /// <summary>
         /// The time in seconds since epoch (Unix time stamp to retrieve states for. Current time will be used if omitted.
         /// </summary>

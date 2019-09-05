@@ -17,7 +17,7 @@ namespace Igrm.OpenSkyApi.Implementations
 
         private readonly HttpClient _httpClient;
         private readonly BasicAuthenticationHeader _authHeader;
-        private readonly T _requestModel;
+        private readonly dynamic _requestModel;
         private readonly string _endPoint;
 
         public CommandBase(HttpClient httpClient, BasicAuthenticationHeader authHeader, T requestModel, string endPoint)
@@ -50,7 +50,7 @@ namespace Igrm.OpenSkyApi.Implementations
             {
                 if (_authHeader != null)
                     httpRequestMessage.Headers.Authorization = _authHeader.GetAuthenticationHeaderValue();
-                var parameterList = _requestModel as List<KeyValuePair<string, string>>;
+                var parameterList = (List<KeyValuePair<string, string>>)_requestModel;
                 if (parameterList != null) httpRequestMessage.Content = new FormUrlEncodedContent(parameterList);
                 else throw new ParameterListException($"Can't cast model {_requestModel.GetType().Name} to list of parameters");
                 Result = ProcessRequest(httpRequestMessage);
