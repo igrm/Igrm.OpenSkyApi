@@ -66,10 +66,10 @@ namespace Igrm.OpenSkyApi.Models.Request
 
             if(vectorsRequestModel.BoundingBox!=null)
             {
-                pairs.Add(new KeyValuePair<string, string>("lamin", vectorsRequestModel.BoundingBox.Lamin.ToString("######.######", CultureInfo.InvariantCulture)));
-                pairs.Add(new KeyValuePair<string, string>("lomin", vectorsRequestModel.BoundingBox.Lomin.ToString("######.######", CultureInfo.InvariantCulture)));
-                pairs.Add(new KeyValuePair<string, string>("lamax", vectorsRequestModel.BoundingBox.Lamax.ToString("######.######", CultureInfo.InvariantCulture)));
-                pairs.Add(new KeyValuePair<string, string>("lomax", vectorsRequestModel.BoundingBox.Lomax.ToString("######.######", CultureInfo.InvariantCulture)));
+                pairs.Add(new KeyValuePair<string, string>("lamin", vectorsRequestModel.BoundingBox.Lamin.ToString("######.############", CultureInfo.InvariantCulture)));
+                pairs.Add(new KeyValuePair<string, string>("lomin", vectorsRequestModel.BoundingBox.Lomin.ToString("######.############", CultureInfo.InvariantCulture)));
+                pairs.Add(new KeyValuePair<string, string>("lamax", vectorsRequestModel.BoundingBox.Lamax.ToString("######.############", CultureInfo.InvariantCulture)));
+                pairs.Add(new KeyValuePair<string, string>("lomax", vectorsRequestModel.BoundingBox.Lomax.ToString("######.############", CultureInfo.InvariantCulture)));
             }
 
             return pairs;
