@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using System.Reflection;
 
 namespace Igrm.OpenSkyApi.Models.Response
 {
@@ -28,11 +32,11 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Unix timestamp (seconds) for the last position update. Can be null if no position report was received by OpenSky within the past 15s.
         ///</summary>
-        public int TimePosition { get; set; }
+        public long TimePosition { get; set; }
         ///<summary>
         ///Unix timestamp (seconds) for the last update in general. This field is updated for any new, valid message received from the transponder.
         ///</summary>
-        public int LastContact { get; set; }
+        public long LastContact { get; set; }
         ///<summary>
         ///WGS-84 longitude in decimal degrees. Can be null.
         ///</summary>
@@ -64,7 +68,7 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///IDs of the receivers which contributed to this state vector. Is null if no filtering for sensor was used in the request.
         ///</summary>
-        public int[] Sensors { get; set; }
+        public long[] Sensors { get; set; }
         ///<summary>
         ///Geometric altitude in meters. Can be null.
         ///</summary>
@@ -80,20 +84,47 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Origin of this state’s position: 0 = ADS-B, 1 = ASTERIX, 2 = MLAT
         ///</summary>
-        public PositionSource PositionSource { get; set; }
+        public long PositionSource { get; set; }
+
+        public static explicit operator StateVector(dynamic[] array)
+        {
+            StateVector stateVector = new StateVector();
+            int position = 0;
+
+            Type stateVectorType = typeof(StateVector);
+
+            foreach (var item in array)
+            {
+                PropertyInfo pi = stateVectorType.GetProperties()[position];
+                if(item!=null)
+                {
+                    if (pi.PropertyType.Name == "Decimal")
+                        pi.SetValue(stateVector, Convert.ToDecimal(item));
+                    else
+                        pi.SetValue(stateVector, item);
+                }
+                position++;
+            }
+
+            return stateVector;
+        }
 
     }
 
     public class AllStateVectorsResponseModel
     {
         /// <summary>
-        /// The time which the state vectors in this response are associated with. All vectors represent the state of a vehicle with the interval [time−1,time].
+        /// The time which the state vectors in this response are associated with. All vectors represent the state of a vehicle with the longerval [time−1,time].
         /// </summary>
-        public int Time { get; set; }
- 
+        [JsonProperty("time")]
+        public long Time { get; set; }
+
+        [JsonProperty("states")]
+        public dynamic[][] RawStates { get; set; }
+
         /// <summary>
         /// The state vectors.
         /// </summary>
-        public List<StateVector> StateVectors { get; set; }
+        public List<StateVector> StateVectors => RawStates.Select(x => (StateVector)x).ToList();
     }
 }
