@@ -6,12 +6,13 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Linq;
 
 namespace Igrm.OpenSkyApi.Implementations
 {
     public abstract class CommandBase<T, U> : ICommandWithResult<U>
     {
-        protected String BaseUri { get { return $"{OpenSkyApiConstants.PROTOCOL}{OpenSkyApiConstants.HOST}"; } }
+        protected String BaseUri { get { return $"{OpenSkyApiConstants.PROTOCOL}{OpenSkyApiConstants.HOST}{OpenSkyApiConstants.API_ROOT}"; } }
 
         public U Result { get; set; }
 
@@ -40,18 +41,20 @@ namespace Igrm.OpenSkyApi.Implementations
             }
             else
             {
-                throw new RequestFailedException($"{httpResponseMessageTask.Result.StatusCode} {httpResponseMessageTask.Result.ReasonPhrase}");
+                throw new RequestFailedException($"{(int)httpResponseMessageTask.Result.StatusCode} {httpResponseMessageTask.Result.ReasonPhrase}");
             }
         }
 
         public void Execute()
         {
-            using (HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{BaseUri}{_endPoint}"))
+            UriBuilder builder = new UriBuilder($"{BaseUri}{_endPoint}");
+            var parameterList = (List<KeyValuePair<string, string>>)_requestModel;
+            builder.Query = String.Join("&", parameterList.Select(x => $"{x.Key}={x.Value}"));
+
+            using (HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, builder.Uri))
             {
                 if (_authHeader != null)
                     httpRequestMessage.Headers.Authorization = _authHeader.GetAuthenticationHeaderValue();
-                var parameterList = (List<KeyValuePair<string, string>>)_requestModel;
-                httpRequestMessage.Content = new FormUrlEncodedContent(parameterList);
                 Result = ProcessRequest(httpRequestMessage);
             }
         }

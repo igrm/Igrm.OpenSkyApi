@@ -1,5 +1,5 @@
 ﻿using Igrm.OpenSkyApi.Models.Request;
-using Igrm.OpenSkyApi.Tests.Fixtures;
+using Igrm.OpenSkyApi.Tests.UnitTests.Fixtures;
 using Moq;
 using Moq.Protected;
 using System.Net;
@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Igrm.OpenSkyApi.Tests.Facts
+namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
 {
     public class OpenSkyClientFacts
     {

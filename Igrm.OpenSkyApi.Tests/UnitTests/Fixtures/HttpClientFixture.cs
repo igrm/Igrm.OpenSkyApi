@@ -1,10 +1,6 @@
-﻿using Moq;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 
-namespace Igrm.OpenSkyApi.Tests.Fixtures
+namespace Igrm.OpenSkyApi.Tests.UnitTests.Fixtures
 {
     public class HttpClientFixture
     {
