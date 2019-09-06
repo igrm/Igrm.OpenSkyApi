@@ -60,6 +60,17 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 //ASSERT
                 Assert.True(response.Count > 0);
             }
+
+            [Fact]
+            public void CallGetFlightsInTimeInterval()
+            {
+                //ARRANGE
+                var client = new OpenSkyClient(_httpClientFixture.HttpClient);
+                //ACT
+                var response = client.GetFlightsInTimeInterval(new FlightsInTimeIntervalRequestModel() { Begin = 1565746000 , End = 1565751701 });
+                //ASSERT
+                Assert.True(response.Count > 0);
+            }
         }
     }
 }
