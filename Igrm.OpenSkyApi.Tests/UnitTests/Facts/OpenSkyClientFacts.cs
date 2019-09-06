@@ -112,5 +112,39 @@ namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
                 Assert.True(response.Count > 0);
             }
         }
+
+        public class GetFlightsByAircraftMethod : IClassFixture<HttpClientFixture>
+        {
+            private readonly HttpClientFixture _httpClientFixture;
+
+            public GetFlightsByAircraftMethod(HttpClientFixture httpClientFixture)
+            {
+                _httpClientFixture = httpClientFixture;
+            }
+
+            [Fact]
+            public void WhenAircraftProvided_ReturnsListOfFlights()
+            {
+                //ARRANGE
+                var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Loose);
+                handlerMock.Protected().Setup<Task<HttpResponseMessage>>(
+                                                      "SendAsync",
+                                                      ItExpr.IsAny<HttpRequestMessage>(),
+                                                      ItExpr.IsAny<CancellationToken>())
+                            .ReturnsAsync(new HttpResponseMessage()
+                            {
+                                StatusCode = HttpStatusCode.OK,
+                                Content = new StringContent("[{\"icao24\":\"896471\",\"firstSeen\":1567726155,\"estDepartureAirport\":\"OMDB\",\"lastSeen\":1567726790,\"estArrivalAirport\":\"OMDB\",\"callsign\":\"A6EUG   \",\"estDepartureAirportHorizDistance\":894,\"estDepartureAirportVertDistance\":118,\"estArrivalAirportHorizDistance\":1375,\"estArrivalAirportVertDistance\":110,\"departureAirportCandidatesCount\":0,\"arrivalAirportCandidatesCount\":2},{\"icao24\":\"896471\",\"firstSeen\":1567599216,\"estDepartureAirport\":\"YSSY\",\"lastSeen\":1567648498,\"estArrivalAirport\":\"OMDB\",\"callsign\":\"UAE5CL  \",\"estDepartureAirportHorizDistance\":4485,\"estDepartureAirportVertDistance\":245,\"estArrivalAirportHorizDistance\":1636,\"estArrivalAirportVertDistance\":103,\"departureAirportCandidatesCount\":0,\"arrivalAirportCandidatesCount\":2},{\"icao24\":\"896471\",\"firstSeen\":1567577071,\"estDepartureAirport\":\"NZCH\",\"lastSeen\":1567587652,\"estArrivalAirport\":\"YSSY\",\"callsign\":\"UAE5CL  \",\"estDepartureAirportHorizDistance\":84,\"estDepartureAirportVertDistance\":92,\"estArrivalAirportHorizDistance\":2985,\"estArrivalAirportVertDistance\":69,\"departureAirportCandidatesCount\":1,\"arrivalAirportCandidatesCount\":2},{\"icao24\":\"896471\",\"firstSeen\":1567548214,\"estDepartureAirport\":\"YSSY\",\"lastSeen\":1567557313,\"estArrivalAirport\":\"NZCH\",\"callsign\":\"UAE3HJ  \",\"estDepartureAirportHorizDistance\":1805,\"estDepartureAirportVertDistance\":138,\"estArrivalAirportHorizDistance\":377,\"estArrivalAirportVertDistance\":46,\"departureAirportCandidatesCount\":0,\"arrivalAirportCandidatesCount\":3},{\"icao24\":\"896471\",\"firstSeen\":1567495471,\"estDepartureAirport\":\"OMDB\",\"lastSeen\":1567541208,\"estArrivalAirport\":\"YSSY\",\"callsign\":\"UAE3HJ  \",\"estDepartureAirportHorizDistance\":632,\"estDepartureAirportVertDistance\":103,\"estArrivalAirportHorizDistance\":4325,\"estArrivalAirportVertDistance\":115,\"departureAirportCandidatesCount\":0,\"arrivalAirportCandidatesCount\":2}]"),
+                            });
+                _httpClientFixture.SetupHttpClient(handlerMock.Object);
+
+                //ACT
+                IOpenSkyClient client = new OpenSkyClient(_httpClientFixture.HttpClient);
+                var response = client.GetFlightsByAircraft(new FlightsByAircraftRequestModel() { Icao24 = "896471", Begin = 1567451701, End = 1567751701 });
+
+                //ASSERT
+                Assert.True(response.Count > 0);
+            }
+        }
     }
 }

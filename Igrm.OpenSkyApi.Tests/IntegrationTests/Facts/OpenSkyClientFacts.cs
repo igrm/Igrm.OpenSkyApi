@@ -49,6 +49,17 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 //ASSERT
                 Assert.True(response.Count > 0);
             }
+
+            [Fact]
+            public void CallGetFlightsByAircraft()
+            {
+                //ARRANGE
+                var client = new OpenSkyClient(_httpClientFixture.HttpClient);
+                //ACT
+                var response = client.GetFlightsByAircraft(new FlightsByAircraftRequestModel() { Icao24 = "896471", Begin = DateTime.UtcNow.AddHours(-24).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
+                //ASSERT
+                Assert.True(response.Count > 0);
+            }
         }
     }
 }

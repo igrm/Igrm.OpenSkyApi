@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Igrm.OpenSkyApi.Models.Response
 {
-    public class FlightsByAircraftResponseModel
+    public class FlightByAircraft
     {
         ///<summary>
         ///Unique ICAO 24-bit address of the transponder in hex string representation. All letters are lower case.
@@ -54,6 +54,11 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///Number of other possible departure airports. These are airports in short distance to estArrivalAirport.
         ///</summary>
         public long Arrivalairportcandidatescount { get; set; }
+
+    }
+
+    public class FlightsByAircraftResponseModel:List<FlightByAircraft>
+    {
 
     }
 }
