@@ -3,6 +3,7 @@ using Igrm.OpenSkyApi.Tests.IntegrationTests.Fixtures;
 using Igrm.OpenSkyApi.Helpers;
 using Xunit;
 using System;
+using Igrm.OpenSkyApi.Exceptions;
 
 namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
 {
@@ -70,6 +71,17 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 var response = client.GetFlightsInTimeInterval(new FlightsInTimeIntervalRequestModel() { Begin = 1565746000 , End = 1565751701 });
                 //ASSERT
                 Assert.True(response.Count > 0);
+            }
+
+            [Fact]
+            public void CallGetOwnStateVectors()
+            {
+                //ARRANGE
+                var client = new OpenSkyClient(_httpClientFixture.HttpClient, "abc","abc");
+                //ACT
+                Exception ex = Assert.Throws<RequestFailedException>(() => client.GetOwnStateVectors(new OwnStateVectorsRequestModel() { Serials = new System.Collections.Generic.List<long>() { 1 }, Icao24 = new System.Collections.Generic.List<string>() { "896471" } }));
+                //ASSERT
+                Assert.Equal("401", ex.Message.Trim());
             }
         }
     }
