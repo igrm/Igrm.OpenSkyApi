@@ -34,7 +34,18 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 //ARRANGE
                 var client = new OpenSkyClient(_httpClientFixture.HttpClient);
                 //ACT
-                var response = client.GetArrivalsByAirport(new ArrivalsByAirportRequestModel() { Airport = "OMDB", Begin = DateTime.UtcNow.AddHours(-8).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
+                var response = client.GetArrivalsByAirport(new ArrivalsByAirportRequestModel() { Airport = "OMDB", Begin = DateTime.UtcNow.AddHours(-24).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
+                //ASSERT
+                Assert.True(response.Count > 0);
+            }
+
+            [Fact]
+            public void CallGetDeparturesByAirport()
+            {
+                //ARRANGE
+                var client = new OpenSkyClient(_httpClientFixture.HttpClient);
+                //ACT
+                var response = client.GetDeparturesByAirport(new DeparturesByAirportRequestModel() { Airport="OMDB", Begin = DateTime.UtcNow.AddHours(-24).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
                 //ASSERT
                 Assert.True(response.Count > 0);
             }

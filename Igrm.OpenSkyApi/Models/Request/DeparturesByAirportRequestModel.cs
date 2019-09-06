@@ -24,6 +24,7 @@ namespace Igrm.OpenSkyApi.Models.Request
         public static explicit operator List<KeyValuePair<string, string>>(DeparturesByAirportRequestModel requestModel)
         {
             List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>>();
+            pairs.Add(new KeyValuePair<string, string>("airport", requestModel.Airport));
             pairs.Add(new KeyValuePair<string, string>("begin", requestModel.Begin.ToString()));
             pairs.Add(new KeyValuePair<string, string>("end", requestModel.End.ToString()));
             return pairs;
