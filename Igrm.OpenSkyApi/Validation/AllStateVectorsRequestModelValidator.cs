@@ -7,10 +7,7 @@ namespace Igrm.OpenSkyApi.Validation
     {
         public AllStateVectorsRequestModelValidator()
         {
-            RuleFor(model => model.BoundingBox.Lamax).ExclusiveBetween(-90, 90);
-            RuleFor(model => model.BoundingBox.Lamin).ExclusiveBetween(-90, 90);
-            RuleFor(model => model.BoundingBox.Lomax).ExclusiveBetween(-180, 180);
-            RuleFor(model => model.BoundingBox.Lomin).ExclusiveBetween(-180, 180);
+            RuleFor(model => model.BoundingBox).SetValidator(new BoundingBoxValidator());
         }
     }
 }

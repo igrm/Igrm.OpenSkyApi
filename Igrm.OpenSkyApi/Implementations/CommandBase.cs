@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Linq;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace Igrm.OpenSkyApi.Implementations
 {
-    public abstract class CommandBase<T, U> : ICommandWithResult<U>
+    public abstract class CommandBase<T, U, V>  : ICommandWithResult<U> where V : AbstractValidator<T>
     {
         protected String BaseUri { get { return $"{OpenSkyApiConstants.PROTOCOL}{OpenSkyApiConstants.HOST}{OpenSkyApiConstants.API_ROOT}"; } }
 
@@ -20,13 +22,15 @@ namespace Igrm.OpenSkyApi.Implementations
         private readonly BasicAuthenticationHeader _authHeader;
         private readonly dynamic _requestModel;
         private readonly string _endPoint;
+        private readonly V _validator;
 
-        public CommandBase(HttpClient httpClient, BasicAuthenticationHeader authHeader, T requestModel, string endPoint)
+        public CommandBase(HttpClient httpClient, BasicAuthenticationHeader authHeader, T requestModel, string endPoint, V validator)
         {
             _httpClient = httpClient;
             _authHeader = authHeader;
             _requestModel = requestModel;
             _endPoint = endPoint;
+            _validator = validator;
         }
 
         protected U ProcessRequest(HttpRequestMessage httpRequestMessage)
@@ -47,15 +51,24 @@ namespace Igrm.OpenSkyApi.Implementations
 
         public void Execute()
         {
-            UriBuilder builder = new UriBuilder($"{BaseUri}{_endPoint}");
-            var parameterList = (List<KeyValuePair<string, string>>)_requestModel;
-            builder.Query = String.Join("&", parameterList.Select(x => $"{x.Key}={x.Value}"));
+            ValidationResult validationResult = _validator.Validate(_requestModel);
 
-            using (HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, builder.Uri))
+            if (validationResult.IsValid)
             {
-                if (_authHeader != null)
-                    httpRequestMessage.Headers.Authorization = _authHeader.GetAuthenticationHeaderValue();
-                Result = ProcessRequest(httpRequestMessage);
+                UriBuilder builder = new UriBuilder($"{BaseUri}{_endPoint}");
+                var parameterList = (List<KeyValuePair<string, string>>)_requestModel;
+                builder.Query = String.Join("&", parameterList.Select(x => $"{x.Key}={x.Value}"));
+
+                using (HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, builder.Uri))
+                {
+                    if (_authHeader != null)
+                        httpRequestMessage.Headers.Authorization = _authHeader.GetAuthenticationHeaderValue();
+                    Result = ProcessRequest(httpRequestMessage);
+                }
+            }
+            else
+            {
+                throw new ModelValidationException(validationResult.Errors);
             }
         }
     }

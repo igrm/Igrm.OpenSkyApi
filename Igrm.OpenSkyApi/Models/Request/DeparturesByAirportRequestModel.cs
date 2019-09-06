@@ -14,12 +14,12 @@ namespace Igrm.OpenSkyApi.Models.Request
         /// <summary>
         /// Start of time interval to retrieve flights for as Unix time(seconds since epoch)
         /// </summary>
-        public int Begin { get; set; }
+        public long Begin { get; set; }
 
         /// <summary>
         /// End of time interval to retrieve flights for as Unix time(seconds since epoch)
         /// </summary>
-        public int End { get; set; }
+        public long End { get; set; }
 
         public static explicit operator List<KeyValuePair<string, string>>(DeparturesByAirportRequestModel requestModel)
         {

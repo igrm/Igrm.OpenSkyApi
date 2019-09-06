@@ -9,23 +9,23 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Time which the given waypoint is associated with in seconds since epoch (Unix time).
         ///</summary>
-        public int Time { get; set; }
+        public long Time { get; set; }
         ///<summary>
         ///WGS-84 latitude in decimal degrees. Can be null.
         ///</summary>
-        public float Latitude { get; set; }
+        public decimal Latitude { get; set; }
         ///<summary>
         ///WGS-84 longitude in decimal degrees. Can be null.
         ///</summary>
-        public float Longitude { get; set; }
+        public decimal Longitude { get; set; }
         ///<summary>
         ///Barometric altitude in meters. Can be null.
         ///</summary>
-        public float BaroAltitude { get; set; }
+        public decimal BaroAltitude { get; set; }
         ///<summary>
         ///True track in decimal degrees clockwise from north (north=0°). Can be null.
         ///</summary>
-        public float TrueTrack { get; set; }
+        public decimal TrueTrack { get; set; }
         ///<summary>
         ///Boolean value which indicates if the position was retrieved from a surface position report.
         ///</summary>
@@ -42,11 +42,11 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Time of the first waypoint in seconds since epoch (Unix time).
         ///</summary>
-        public int Starttime { get; set; }
+        public long Starttime { get; set; }
         ///<summary>
         ///Time of the last waypoint in seconds since epoch (Unix time).
         ///</summary>
-        public int Endtime { get; set; }
+        public long Endtime { get; set; }
         ///<summary>
         ///Callsign (8 characters) that holds for the whole track. Can be null.
         ///</summary>
