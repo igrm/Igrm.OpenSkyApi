@@ -13,7 +13,7 @@ namespace Igrm.OpenSkyApi.Constants
         public const String SPECIFIED_USER_STATES = "/states/own";
         public const String ALL_FLIGHTS_IN_INTERVAL = "/flights/all";
         public const String SPECIFIED_AIRCRAFT_FLIGHTS_IN_INTERVAL = "/flights/aircraft";
-        public const String SPECIFIED_AIRCRAFT_TRACK = "/tracks";
+        public const String SPECIFIED_AIRCRAFT_TRACK = "/tracks/all";
         public const String AIRPORT_ARRIVALS = "/flights/arrival";
         public const String AIRPORT_DEPARTURES = "/flights/departure";
 

@@ -83,6 +83,17 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 //ASSERT
                 Assert.Equal("401", ex.Message.Trim());
             }
+
+            [Fact]
+            public void CallGetTrackByAircraft()
+            {
+                //ARRANGE
+                var client = new OpenSkyClient(_httpClientFixture.HttpClient);
+                //ACT
+                var response = client.GetTrackByAircraft(new TrackByAircraftRequestModel() { Icao24 = "4b1805", Time = 1567676180 });
+                //ASSERT
+                Assert.True(response.Path.Count > 0);
+            }
         }
     }
 }

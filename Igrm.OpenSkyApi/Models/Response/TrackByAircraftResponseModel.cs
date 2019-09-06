@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
+using System.Linq;
 
 namespace Igrm.OpenSkyApi.Models.Response
 {
@@ -31,10 +34,35 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///</summary>
         public bool OnGround { get; set; }
 
+        public static explicit operator Waypoint(dynamic[] array)
+        {
+            Waypoint waypoint = new Waypoint();
+            int position = 0;
+
+            Type waypointType = typeof(Waypoint);
+
+            foreach (var item in array)
+            {
+                PropertyInfo pi = waypointType.GetProperties()[position];
+                if (item != null)
+                {
+                    if (pi.PropertyType.Name == "Decimal")
+                        pi.SetValue(waypoint, Convert.ToDecimal(item));
+                    else
+                        pi.SetValue(waypoint, item);
+                }
+                position++;
+            }
+
+            return waypoint;
+        }
     }
 
     public class TrackByAircraftResponseModel
     {
+        public TrackByAircraftResponseModel()
+        {
+        }
         ///<summary>
         ///Unique ICAO 24-bit address of the transponder in lower case hex string representation.
         ///</summary>
@@ -54,7 +82,9 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Waypoints of the trajectory (description below).
         ///</summary>
-        public List<Waypoint> Path { get; set; }
+        public List<Waypoint> Path => RawPath.Select(x=>(Waypoint)x).ToList();
 
+        [JsonProperty("path")]
+        public dynamic[][] RawPath { get; set; }
     }
 }
