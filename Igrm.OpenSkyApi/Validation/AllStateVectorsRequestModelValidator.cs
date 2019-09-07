@@ -8,6 +8,10 @@ namespace Igrm.OpenSkyApi.Validation
         public AllStateVectorsRequestModelValidator()
         {
             RuleFor(model => model.BoundingBox).SetValidator(new BoundingBoxValidator());
+            RuleFor(model => model.Time).Custom((value, context) => {
+                if (value.HasValue && value < 0)
+                    context.AddFailure("Time should be greater or equal to 0");
+            });
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Igrm.OpenSkyApi.Models.Request
             pairs.Add(new KeyValuePair<string, string>("icao24", requestModel.Icao24));
             if (requestModel.Time.HasValue)
                 pairs.Add(new KeyValuePair<string, string>("time", requestModel.Time.Value.ToString()));
+            else
+                pairs.Add(new KeyValuePair<string, string>("time", "0"));
             return pairs;
         }
     }
