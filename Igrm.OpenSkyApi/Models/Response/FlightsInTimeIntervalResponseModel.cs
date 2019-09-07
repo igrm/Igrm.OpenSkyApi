@@ -13,47 +13,47 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Estimated time of departure for the flight as Unix time (seconds since epoch).
         ///</summary>
-        public long? Firstseen { get; set; }
+        public long? FirstSeen { get; set; }
         ///<summary>
         ///ICAO code of the estimated departure airport. Can be null if the airport could not be identified.
         ///</summary>
-        public string Estdepartureairport { get; set; }
+        public string EstDepartureAirport { get; set; }
         ///<summary>
         ///Estimated time of arrival for the flight as Unix time (seconds since epoch)
         ///</summary>
-        public long? Lastseen { get; set; }
+        public long? LastSeen { get; set; }
         ///<summary>
         ///ICAO code of the estimated arrival airport. Can be null if the airport could not be identified.
         ///</summary>
-        public string Estarrivalairport { get; set; }
+        public string EstArrivalAirport { get; set; }
         ///<summary>
         ///Callsign of the vehicle (8 chars). Can be null if no callsign has been received. If the vehicle transmits multiple callsigns during the flight, we take the one seen most frequently
         ///</summary>
-        public string Callsign { get; set; }
+        public string CallSign { get; set; }
         ///<summary>
         ///Horizontal distance of the last received airborne position to the estimated departure airport in meters
         ///</summary>
-        public long? Estdepartureairporthorizdistance { get; set; }
+        public long? EstDepartureAirportHorizDistance { get; set; }
         ///<summary>
         ///Vertical distance of the last received airborne position to the estimated departure airport in meters
         ///</summary>
-        public long? Estdepartureairportvertdistance { get; set; }
+        public long? EstDepartureAirportVertDistance { get; set; }
         ///<summary>
         ///Horizontal distance of the last received airborne position to the estimated arrival airport in meters
         ///</summary>
-        public long? Estarrivalairporthorizdistance { get; set; }
+        public long? EstArrivalAirportHorizDistance { get; set; }
         ///<summary>
         ///Vertical distance of the last received airborne position to the estimated arrival airport in meters
         ///</summary>
-        public long? Estarrivalairportvertdistance { get; set; }
+        public long? EstArrivalAirportVertDistance { get; set; }
         ///<summary>
         ///Number of other possible departure airports. These are airports in short distance to estDepartureAirport.
         ///</summary>
-        public long Departureairportcandidatescount { get; set; }
+        public long DepartureAirportCandidatesCount { get; set; }
         ///<summary>
         ///Number of other possible departure airports. These are airports in short distance to estArrivalAirport.
         ///</summary>
-        public long Arrivalairportcandidatescount { get; set; }
+        public long ArrivalAirportCandidatesCount { get; set; }
 
     }
 

@@ -24,7 +24,7 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Callsign of the vehicle (8 chars). Can be null if no callsign has been received.
         ///</summary>
-        public string Callsign { get; set; }
+        public string CallSign { get; set; }
         ///<summary>
         ///Country name inferred from the ICAO 24-bit address.
         ///</summary>

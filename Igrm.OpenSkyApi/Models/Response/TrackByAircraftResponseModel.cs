@@ -70,15 +70,16 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Time of the first waypoint in seconds since epoch (Unix time).
         ///</summary>
-        public long Starttime { get; set; }
+        public long StartTime { get; set; }
         ///<summary>
         ///Time of the last waypoint in seconds since epoch (Unix time).
         ///</summary>
-        public long Endtime { get; set; }
+        public long EndTime { get; set; }
         ///<summary>
         ///Callsign (8 characters) that holds for the whole track. Can be null.
         ///</summary>
-        public string Calllsign { get; set; }
+        [JsonProperty("calllsign")]
+        public string CallSign { get; set; }
         ///<summary>
         ///Waypoints of the trajectory (description below).
         ///</summary>

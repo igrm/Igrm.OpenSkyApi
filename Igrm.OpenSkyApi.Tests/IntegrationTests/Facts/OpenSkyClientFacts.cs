@@ -4,6 +4,7 @@ using Igrm.OpenSkyApi.Helpers;
 using Xunit;
 using System;
 using Igrm.OpenSkyApi.Exceptions;
+using System.Linq;
 
 namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
 {
@@ -35,7 +36,7 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 //ARRANGE
                 var client = new OpenSkyClient(_httpClientFixture.HttpClient);
                 //ACT
-                var response = client.GetArrivalsByAirport(new ArrivalsByAirportRequestModel() { Airport = "OMDB", Begin = DateTime.UtcNow.AddHours(-24).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
+                var response = client.GetArrivalsByAirport(new ArrivalsByAirportRequestModel() { Airport = "OMDB", Begin = DateTime.UtcNow.AddHours(-48).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
                 //ASSERT
                 Assert.True(response.Count > 0);
             }
@@ -46,7 +47,7 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 //ARRANGE
                 var client = new OpenSkyClient(_httpClientFixture.HttpClient);
                 //ACT
-                var response = client.GetDeparturesByAirport(new DeparturesByAirportRequestModel() { Airport="OMDB", Begin = DateTime.UtcNow.AddHours(-24).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
+                var response = client.GetDeparturesByAirport(new DeparturesByAirportRequestModel() { Airport="OMDB", Begin = DateTime.UtcNow.AddHours(-48).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
                 //ASSERT
                 Assert.True(response.Count > 0);
             }
@@ -57,7 +58,8 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 //ARRANGE
                 var client = new OpenSkyClient(_httpClientFixture.HttpClient);
                 //ACT
-                var response = client.GetFlightsByAircraft(new FlightsByAircraftRequestModel() { Icao24 = "896471", Begin = DateTime.UtcNow.AddHours(-24).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
+                var flyingAircraftIcao24 = client.GetAllStateVectors(new AllStateVectorsRequestModel() { BoundingBox = new BoundingBox() { Lamin = 45.8389m, Lomin = 5.9962m, Lamax = 47.8229m, Lomax = 10.5226m } }).StateVectors.First().Icao24;
+                var response = client.GetFlightsByAircraft(new FlightsByAircraftRequestModel() { Icao24 = flyingAircraftIcao24, Begin = DateTime.UtcNow.AddHours(-48).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
                 //ASSERT
                 Assert.True(response.Count > 0);
             }
