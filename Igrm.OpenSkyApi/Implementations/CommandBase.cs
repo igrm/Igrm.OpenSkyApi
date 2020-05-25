@@ -9,10 +9,12 @@ using System.Net.Http;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
+using System.Threading.Tasks;
 
 namespace Igrm.OpenSkyApi.Implementations
 {
-    public abstract class CommandBase<T, U, V>  : ICommandWithResult<U> where V : AbstractValidator<T>
+    public abstract class CommandBase<T, U, V> : ICommandWithResult<U> where V : AbstractValidator<T>, new()
+                                                                       where T : IRequestModel
     {
         protected String BaseUri { get { return $"{OpenSkyApiConstants.PROTOCOL}{OpenSkyApiConstants.HOST}{OpenSkyApiConstants.API_ROOT}"; } }
 
@@ -24,51 +26,44 @@ namespace Igrm.OpenSkyApi.Implementations
         private readonly string _endPoint;
         private readonly V _validator;
 
-        public CommandBase(HttpClient httpClient, BasicAuthenticationHeader authHeader, T requestModel, string endPoint, V validator)
+        protected CommandBase(HttpClient httpClient, BasicAuthenticationHeader authHeader, T requestModel, string endPoint)
         {
             _httpClient = httpClient;
             _authHeader = authHeader;
             _requestModel = requestModel;
             _endPoint = endPoint;
-            _validator = validator;
+            _validator = new V();
         }
 
-        protected U ProcessRequest(HttpRequestMessage httpRequestMessage)
+        protected async Task<U> ProcessRequestAsync(HttpRequestMessage httpRequestMessage)
         {
-            var httpResponseMessageTask = _httpClient.SendAsync(httpRequestMessage);
-            httpResponseMessageTask.Wait();
-            if (httpResponseMessageTask.Result.IsSuccessStatusCode)
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                var stringTask = httpResponseMessageTask.Result.Content.ReadAsStringAsync();
-                stringTask.Wait();
-                return JsonConvert.DeserializeObject<U>(stringTask.Result);
+                throw new RequestFailedException($"{(int)httpResponseMessage.StatusCode} {httpResponseMessage.ReasonPhrase}");
             }
-            else
-            {
-                throw new RequestFailedException($"{(int)httpResponseMessageTask.Result.StatusCode} {httpResponseMessageTask.Result.ReasonPhrase}");
-            }
+            var stringOutput = await httpResponseMessage.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<U>(stringOutput);
         }
 
-        public void Execute()
+        public async Task ExecuteAsync()
         {
             ValidationResult validationResult = _validator.Validate(_requestModel);
 
-            if (validationResult.IsValid)
-            {
-                UriBuilder builder = new UriBuilder($"{BaseUri}{_endPoint}");
-                var parameterList = (List<KeyValuePair<string, string>>)_requestModel;
-                builder.Query = String.Join("&", parameterList.Select(x => $"{x.Key}={x.Value}"));
-
-                using (HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, builder.Uri))
-                {
-                    if (_authHeader != null)
-                        httpRequestMessage.Headers.Authorization = _authHeader.GetAuthenticationHeaderValue();
-                    Result = ProcessRequest(httpRequestMessage);
-                }
-            }
-            else
+            if (!validationResult.IsValid)
             {
                 throw new ModelValidationException(validationResult.Errors);
+            }
+
+            UriBuilder builder = new UriBuilder($"{BaseUri}{_endPoint}");
+            var parameterList = (List<KeyValuePair<string, string>>)_requestModel;
+            builder.Query = String.Join("&", parameterList.Select(x => $"{x.Key}={x.Value}"));
+
+            using (HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, builder.Uri))
+            {
+                if (_authHeader != null)
+                    httpRequestMessage.Headers.Authorization = _authHeader.GetAuthenticationHeaderValue();
+                Result = await ProcessRequestAsync(httpRequestMessage);
             }
         }
     }

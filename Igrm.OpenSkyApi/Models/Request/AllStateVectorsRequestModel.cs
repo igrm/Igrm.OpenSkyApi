@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Igrm.OpenSkyApi.Interfaces;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace Igrm.OpenSkyApi.Models.Request
 {
@@ -28,7 +27,7 @@ namespace Igrm.OpenSkyApi.Models.Request
         public decimal Lomax { get; set; }
     }
 
-    public class AllStateVectorsRequestModel
+    public class AllStateVectorsRequestModel : IRequestModel
     {
         public AllStateVectorsRequestModel()
         {

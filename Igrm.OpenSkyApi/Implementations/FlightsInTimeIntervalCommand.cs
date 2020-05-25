@@ -9,7 +9,7 @@ namespace Igrm.OpenSkyApi.Implementations
 {
     public class FlightsInTimeIntervalCommand : CommandBase<FlightsInTimeIntervalRequestModel, FlightsInTimeIntervalResponseModel, FlightsInTimeIntervalRequestModelValidator>
     {
-        public FlightsInTimeIntervalCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, FlightsInTimeIntervalRequestModel requestModel) : base(httpClient, authHeader, requestModel, OpenSkyApiConstants.ALL_FLIGHTS_IN_INTERVAL, new FlightsInTimeIntervalRequestModelValidator())
+        public FlightsInTimeIntervalCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, FlightsInTimeIntervalRequestModel requestModel) : base(httpClient, authHeader, requestModel, OpenSkyApiConstants.ALL_FLIGHTS_IN_INTERVAL)
         {
 
         }

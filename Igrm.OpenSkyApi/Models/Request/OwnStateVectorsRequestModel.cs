@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Igrm.OpenSkyApi.Interfaces;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Igrm.OpenSkyApi.Models.Request
 {
-    public class OwnStateVectorsRequestModel
+    public class OwnStateVectorsRequestModel : IRequestModel
     {
         public OwnStateVectorsRequestModel()
         {

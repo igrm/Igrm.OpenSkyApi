@@ -11,6 +11,9 @@
     <RepositoryUrl>https://github.com/igrm/Igrm.OpenSkyApi.git</RepositoryUrl>
     <RepositoryType>GITHUB</RepositoryType>
     <PackageReleaseNotes>OpenSky API REST endpoints added</PackageReleaseNotes>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <NullableContextOptions>enable</NullableContextOptions>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,7 +1,6 @@
 ﻿using Igrm.OpenSkyApi.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Igrm.OpenSkyApi.Implementations
 {
@@ -14,11 +13,11 @@ namespace Igrm.OpenSkyApi.Implementations
             commands = new List<ICommand>();
         }
 
-        public void Execute()
+        public async Task ExecuteAsync()
         {
             foreach(var command in commands)
             {
-                command.Execute();
+                await command.ExecuteAsync();
             }
         }
 

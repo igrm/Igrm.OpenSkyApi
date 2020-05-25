@@ -59,7 +59,7 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 var client = new OpenSkyClient(_httpClientFixture.HttpClient);
                 //ACT
                 var flyingAircraftIcao24 = client.GetAllStateVectors(new AllStateVectorsRequestModel() { BoundingBox = new BoundingBox() { Lamin = 45.8389m, Lomin = 5.9962m, Lamax = 47.8229m, Lomax = 10.5226m } }).StateVectors.First().Icao24;
-                var response = client.GetFlightsByAircraft(new FlightsByAircraftRequestModel() { Icao24 = flyingAircraftIcao24, Begin = DateTime.UtcNow.AddHours(-48).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
+                var response = client.GetFlightsByAircraft(new FlightsByAircraftRequestModel() { Icao24 = flyingAircraftIcao24, Begin = DateTime.UtcNow.AddHours(-480).ToUnixTimestamp(), End = DateTime.UtcNow.ToUnixTimestamp() });
                 //ASSERT
                 Assert.True(response.Count > 0);
             }
@@ -81,9 +81,9 @@ namespace Igrm.OpenSkyApi.Tests.IntegrationTests.Facts
                 //ARRANGE
                 var client = new OpenSkyClient(_httpClientFixture.HttpClient, "abc","abc");
                 //ACT
-                Exception ex = Assert.Throws<RequestFailedException>(() => client.GetOwnStateVectors(new OwnStateVectorsRequestModel() { Serials = new System.Collections.Generic.List<long>() { 1 }, Icao24 = new System.Collections.Generic.List<string>() { "896471" } }));
+                Exception ex = Assert.Throws<AggregateException>(() => client.GetOwnStateVectors(new OwnStateVectorsRequestModel() { Serials = new System.Collections.Generic.List<long>() { 1 }, Icao24 = new System.Collections.Generic.List<string>() { "896471" } }));
                 //ASSERT
-                Assert.Equal("401", ex.Message.Trim());
+                Assert.Equal("401", ex.InnerException.Message.Trim());
             }
 
             [Fact]

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Igrm.OpenSkyApi.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Igrm.OpenSkyApi.Models.Request
 {
-    public class TrackByAircraftRequestModel
+    public class TrackByAircraftRequestModel : IRequestModel
     {
         /// <summary>
         /// Unique ICAO 24-bit address of the transponder in hex string representation. All letters need to be lower case

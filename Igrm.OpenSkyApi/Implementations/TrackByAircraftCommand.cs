@@ -9,7 +9,7 @@ namespace Igrm.OpenSkyApi.Implementations
 {
     public class TrackByAircraftCommand : CommandBase<TrackByAircraftRequestModel, TrackByAircraftResponseModel, TrackByAircraftRequestModelValidator>
     {
-        public TrackByAircraftCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, TrackByAircraftRequestModel requestModel):base(httpClient, authHeader, requestModel, OpenSkyApiConstants.SPECIFIED_AIRCRAFT_TRACK, new TrackByAircraftRequestModelValidator())
+        public TrackByAircraftCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, TrackByAircraftRequestModel requestModel):base(httpClient, authHeader, requestModel, OpenSkyApiConstants.SPECIFIED_AIRCRAFT_TRACK)
         {
 
         }

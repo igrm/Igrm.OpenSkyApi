@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Igrm.OpenSkyApi.Interfaces;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Igrm.OpenSkyApi.Models.Request
 {
-    public class ArrivalsByAirportRequestModel
+    public class ArrivalsByAirportRequestModel : IRequestModel
     {
         /// <summary>
         /// ICAO identier for the airport

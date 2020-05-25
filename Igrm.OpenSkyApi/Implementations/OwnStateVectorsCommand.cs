@@ -9,7 +9,7 @@ namespace Igrm.OpenSkyApi.Implementations
 {
     public class OwnStateVectorsCommand : CommandBase<OwnStateVectorsRequestModel, OwnStateVectorsResponseModel, OwnStateVectorsRequestModelValidator>
     {
-        public OwnStateVectorsCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, OwnStateVectorsRequestModel requestModel):base(httpClient, authHeader, requestModel, OpenSkyApiConstants.SPECIFIED_USER_STATES, new OwnStateVectorsRequestModelValidator())
+        public OwnStateVectorsCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, OwnStateVectorsRequestModel requestModel):base(httpClient, authHeader, requestModel, OpenSkyApiConstants.SPECIFIED_USER_STATES)
         {
         }
     }

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Igrm.OpenSkyApi.Interfaces;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Igrm.OpenSkyApi.Models.Request
 {
-    public class FlightsInTimeIntervalRequestModel
+    public class FlightsInTimeIntervalRequestModel : IRequestModel
     {
         /// <summary>
         /// Start of time interval to retrieve flights for as Unix time(seconds since epoch)

@@ -9,7 +9,7 @@ namespace Igrm.OpenSkyApi.Implementations
 {
     public class DeparturesByAirportCommand : CommandBase<DeparturesByAirportRequestModel, DeparturesByAirportResponseModel, DeparturesByAirportRequestModelValidator>
     {
-        public DeparturesByAirportCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, DeparturesByAirportRequestModel requestModel):base(httpClient, authHeader, requestModel, OpenSkyApiConstants.AIRPORT_DEPARTURES, new DeparturesByAirportRequestModelValidator())
+        public DeparturesByAirportCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, DeparturesByAirportRequestModel requestModel):base(httpClient, authHeader, requestModel, OpenSkyApiConstants.AIRPORT_DEPARTURES)
         {
 
         }

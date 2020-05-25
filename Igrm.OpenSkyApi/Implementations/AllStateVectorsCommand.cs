@@ -9,7 +9,7 @@ namespace Igrm.OpenSkyApi.Implementations
 {
     public class AllStateVectorsCommand : CommandBase<AllStateVectorsRequestModel, AllStateVectorsResponseModel, AllStateVectorsRequestModelValidator>
     {
-        public AllStateVectorsCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, AllStateVectorsRequestModel requestModel):base(httpClient, authHeader, requestModel, OpenSkyApiConstants.AVAILABLE_STATES, new AllStateVectorsRequestModelValidator())
+        public AllStateVectorsCommand(HttpClient httpClient, BasicAuthenticationHeader authHeader, AllStateVectorsRequestModel requestModel):base(httpClient, authHeader, requestModel, OpenSkyApiConstants.AVAILABLE_STATES)
         {
         }
    }
