@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Igrm.OpenSkyApi.Interfaces
 {
-    public interface IRequestModel
+    public interface IRequestModel : ICloneable
     {
     }
 }

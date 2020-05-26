@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Igrm.OpenSkyApi.Models.Request
 {
-    public class FlightsByAircraftRequestModel : IRequestModel
+    public class FlightsByAircraftRequestModel : RequestModelBase
     {
         public FlightsByAircraftRequestModel()
         {

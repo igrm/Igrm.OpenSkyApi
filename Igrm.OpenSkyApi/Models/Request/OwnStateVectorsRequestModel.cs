@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Igrm.OpenSkyApi.Models.Request
 {
-    public class OwnStateVectorsRequestModel : IRequestModel
+    public class OwnStateVectorsRequestModel : RequestModelBase
     {
         public OwnStateVectorsRequestModel()
         {

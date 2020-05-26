@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Igrm.OpenSkyApi.Models.Request
 {
-    public class TrackByAircraftRequestModel : IRequestModel
+    public class TrackByAircraftRequestModel : RequestModelBase
     {
         public TrackByAircraftRequestModel()
         {

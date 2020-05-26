@@ -32,7 +32,7 @@ namespace Igrm.OpenSkyApi.Models.Request
         public bool IsEmpty { get; set; }
     }
 
-    public class AllStateVectorsRequestModel : IRequestModel
+    public class AllStateVectorsRequestModel : RequestModelBase
     {
         public AllStateVectorsRequestModel()
         {
