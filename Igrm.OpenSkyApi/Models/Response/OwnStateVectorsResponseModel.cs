@@ -15,11 +15,18 @@ namespace Igrm.OpenSkyApi.Models.Response
         public long Time { get; set; }
 
         [JsonProperty("states")]
-        public dynamic[][] RawStates { get; set; }
+        public dynamic[][]? RawStates { get; set; }
 
         /// <summary>
         /// The state vectors.
         /// </summary>
-        public List<StateVector> StateVectors => RawStates.Select(x => (StateVector)x).ToList();
+        public List<StateVector> StateVectors
+        {
+            get
+            {
+                var result = RawStates?.Select(x => (StateVector)x)?.ToList();
+                return result ?? new List<StateVector>();
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Igrm.OpenSkyApi.Implementations
 {
     public class CommandInvoker : IInvoker
     {
-        private List<ICommand> commands;
+        private readonly List<ICommand> commands;
 
         public CommandInvoker()
         {

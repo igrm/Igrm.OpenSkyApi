@@ -11,12 +11,20 @@ namespace Igrm.OpenSkyApi.Models.Response
     public enum PositionSource
     {
         ADSB = 0,
-        ASTERIX=1, 
-        MLAT=2
+        ASTERIX = 1,
+        MLAT = 2
     }
 
     public class StateVector
     {
+        public StateVector()
+        {
+            Icao24 = String.Empty;
+            CallSign = String.Empty;
+            OriginCountry = String.Empty;
+            Squawk = String.Empty;
+
+        }
         ///<summary>
         ///Unique ICAO 24-bit address of the transponder in hex string representation.
         ///</summary>
@@ -68,7 +76,7 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///IDs of the receivers which contributed to this state vector. Is null if no filtering for sensor was used in the request.
         ///</summary>
-        public long[] Sensors { get; set; }
+        public long[]? Sensors { get; set; }
         ///<summary>
         ///Geometric altitude in meters. Can be null.
         ///</summary>
@@ -96,7 +104,7 @@ namespace Igrm.OpenSkyApi.Models.Response
             foreach (var item in array)
             {
                 PropertyInfo pi = stateVectorType.GetProperties()[position];
-                if(item!=null)
+                if (item != null)
                 {
                     if (pi.PropertyType.Name == "Decimal")
                         pi.SetValue(stateVector, Convert.ToDecimal(item));
@@ -120,11 +128,18 @@ namespace Igrm.OpenSkyApi.Models.Response
         public long Time { get; set; }
 
         [JsonProperty("states")]
-        public dynamic[][] RawStates { get; set; }
+        public dynamic[][]? RawStates { get; set; }
 
         /// <summary>
         /// The state vectors.
         /// </summary>
-        public List<StateVector> StateVectors => RawStates.Select(x => (StateVector)x).ToList();
+        public List<StateVector> StateVectors
+        {
+            get
+            {
+                var result = RawStates?.Select(x => (StateVector)x)?.ToList();
+                return result ?? new List<StateVector>();
+            }
+        }
     }
 }

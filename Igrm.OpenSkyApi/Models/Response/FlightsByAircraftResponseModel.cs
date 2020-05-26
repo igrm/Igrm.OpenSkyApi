@@ -6,6 +6,13 @@ namespace Igrm.OpenSkyApi.Models.Response
 {
     public class FlightByAircraft
     {
+        public FlightByAircraft()
+        {
+            Icao24 = String.Empty;
+            CallSign = String.Empty;
+            EstArrivalAirport = String.Empty;
+            EstDepartureAirport = String.Empty;
+        }
         ///<summary>
         ///Unique ICAO 24-bit address of the transponder in hex string representation. All letters are lower case.
         ///</summary>

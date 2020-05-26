@@ -25,6 +25,11 @@ namespace Igrm.OpenSkyApi.Models.Request
         /// upper bound for the longitude in decimal degrees
         /// </summary>
         public decimal Lomax { get; set; }
+
+        /// <summary>
+        /// bounds not defined
+        /// </summary>
+        public bool IsEmpty { get; set; }
     }
 
     public class AllStateVectorsRequestModel : IRequestModel
@@ -32,6 +37,7 @@ namespace Igrm.OpenSkyApi.Models.Request
         public AllStateVectorsRequestModel()
         {
             Icao24 = new List<string>();
+            BoundingBox = new BoundingBox() { IsEmpty = true };
         }
 
         /// <summary>
@@ -63,7 +69,7 @@ namespace Igrm.OpenSkyApi.Models.Request
                 pairs.Add(new KeyValuePair<string, string>("icao24", icao24));
             }
 
-            if(vectorsRequestModel.BoundingBox!=null)
+            if(vectorsRequestModel.BoundingBox!=null && !vectorsRequestModel.BoundingBox.IsEmpty)
             {
                 pairs.Add(new KeyValuePair<string, string>("lamin", vectorsRequestModel.BoundingBox.Lamin.ToString("######.############", CultureInfo.InvariantCulture)));
                 pairs.Add(new KeyValuePair<string, string>("lomin", vectorsRequestModel.BoundingBox.Lomin.ToString("######.############", CultureInfo.InvariantCulture)));

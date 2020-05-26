@@ -10,6 +10,12 @@ namespace Igrm.OpenSkyApi.Models
         public String Username { get; set; }
         public String Password { get; set; }
 
+        public BasicAuthenticationHeader()
+        {
+            Username = String.Empty;
+            Password = String.Empty;
+        }
+
         public AuthenticationHeaderValue GetAuthenticationHeaderValue()
         {
             var byteArray = Encoding.ASCII.GetBytes($"{Username}:{Password}");

@@ -7,6 +7,10 @@ namespace Igrm.OpenSkyApi.Models.Request
 {
     public class TrackByAircraftRequestModel : IRequestModel
     {
+        public TrackByAircraftRequestModel()
+        {
+            Icao24 = String.Empty;
+        }
         /// <summary>
         /// Unique ICAO 24-bit address of the transponder in hex string representation. All letters need to be lower case
         /// </summary>
@@ -20,6 +24,7 @@ namespace Igrm.OpenSkyApi.Models.Request
         public static explicit operator List<KeyValuePair<string, string>>(TrackByAircraftRequestModel requestModel)
         {
             List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>>();
+
             pairs.Add(new KeyValuePair<string, string>("icao24", requestModel.Icao24));
             if (requestModel.Time.HasValue)
                 pairs.Add(new KeyValuePair<string, string>("time", requestModel.Time.Value.ToString()));

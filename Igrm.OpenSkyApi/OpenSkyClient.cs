@@ -18,7 +18,7 @@ namespace Igrm.OpenSkyApi
     public class OpenSkyClient : IOpenSkyClient
     {
         private readonly HttpClient _httpClient;
-        private readonly BasicAuthenticationHeader _basicAuthenticationHeader;
+        private readonly BasicAuthenticationHeader? _basicAuthenticationHeader;
         private readonly IInvoker _invoker;
 
         public OpenSkyClient(HttpClient httpClient) : this(httpClient, String.Empty, String.Empty)
@@ -106,36 +106,52 @@ namespace Igrm.OpenSkyApi
         #endregion
 
         #region Sync methods
+        /// <summary>
+        /// The following API call can be used to retrieve any state vector of the OpenSky. Please note that rate limits apply for this call (see Limitations). For API calls without rate limitation, see Own State Vectors.
+        /// </summary>
         public AllStateVectorsResponseModel GetAllStateVectors(AllStateVectorsRequestModel requestModel)
         {
             return GetAllStateVectorsAsync(requestModel).Result;
         }
 
+        /// <summary>
+        /// The following API call can be used to retrieve state vectors for your own sensors without rate limitations. Note that authentication is required for this operation, otherwise you will get a 403 - Forbidden.
+        /// </summary>
         public OwnStateVectorsResponseModel GetOwnStateVectors(OwnStateVectorsRequestModel requestModel)
         {
             return GetOwnStateVectorsAsync(requestModel).Result;
         }
-
+        /// <summary>
+        /// This API call retrieves flights for a particular aircraft within a certain time interval. Resulting flights departed and arrived within [begin, end]. If no flights are found for the given period, HTTP stats 404 - Not found is returned with an empty response body.
+        /// </summary>
         public FlightsByAircraftResponseModel GetFlightsByAircraft(FlightsByAircraftRequestModel requestModel)
         {
             return GetFlightsByAircraftAsync(requestModel).Result;
         }
-
+        /// <summary>
+        /// This API call retrieves flights for a certain time interval [begin, end]. If no flights are found for the given time period, HTTP status 404 - Not found is returned with an empty response body.
+        /// </summary>
         public FlightsInTimeIntervalResponseModel GetFlightsInTimeInterval(FlightsInTimeIntervalRequestModel requestModel)
         {
             return GetFlightsInTimeIntervalAsync(requestModel).Result;
         }
-
+        /// <summary>
+        /// Retrieve flights for a certain airport which arrived within a given time interval [begin, end]. If no flights are found for the given period, HTTP stats 404 - Not found is returned with an empty response body.
+        /// </summary>
         public ArrivalsByAirportResponseModel GetArrivalsByAirport(ArrivalsByAirportRequestModel requestModel)
         {
             return GetArrivalsByAirportAsync(requestModel).Result;
         }
-
+        /// <summary>
+        /// Retrieve flights for a certain airport which departed within a given time interval [begin, end]. If no flights are found for the given period, HTTP stats 404 - Not found is returned with an empty response body.
+        /// </summary>
         public DeparturesByAirportResponseModel GetDeparturesByAirport(DeparturesByAirportRequestModel requestModel)
         {
             return GetDeparturesByAirportAsync(requestModel).Result;
         }
-
+        /// <summary>
+        /// Retrieve the trajectory for a certain aircraft at a given time. The trajectory is a list of waypoints containing position, barometric altitude, true track and an on-ground flag.
+        /// </summary>
         public TrackByAircraftResponseModel GetTrackByAircraft(TrackByAircraftRequestModel requestModel)
         {
             return GetTrackByAircraftAsync(requestModel).Result;

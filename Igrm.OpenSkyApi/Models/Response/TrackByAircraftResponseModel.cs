@@ -37,23 +37,26 @@ namespace Igrm.OpenSkyApi.Models.Response
         public static explicit operator Waypoint(dynamic[] array)
         {
             Waypoint waypoint = new Waypoint();
-            int position = 0;
 
-            Type waypointType = typeof(Waypoint);
-
-            foreach (var item in array)
+            if (array != null)
             {
-                PropertyInfo pi = waypointType.GetProperties()[position];
-                if (item != null)
-                {
-                    if (pi.PropertyType.Name == "Decimal")
-                        pi.SetValue(waypoint, Convert.ToDecimal(item));
-                    else
-                        pi.SetValue(waypoint, item);
-                }
-                position++;
-            }
+                int position = 0;
 
+                Type waypointType = typeof(Waypoint);
+
+                foreach (var item in array)
+                {
+                    PropertyInfo pi = waypointType.GetProperties()[position];
+                    if (item != null)
+                    {
+                        if (pi.PropertyType.Name == "Decimal")
+                            pi.SetValue(waypoint, Convert.ToDecimal(item));
+                        else
+                            pi.SetValue(waypoint, item);
+                    }
+                    position++;
+                }
+            }
             return waypoint;
         }
     }
@@ -62,6 +65,8 @@ namespace Igrm.OpenSkyApi.Models.Response
     {
         public TrackByAircraftResponseModel()
         {
+            Icao24 = String.Empty;
+            CallSign = String.Empty;
         }
         ///<summary>
         ///Unique ICAO 24-bit address of the transponder in lower case hex string representation.
@@ -83,9 +88,16 @@ namespace Igrm.OpenSkyApi.Models.Response
         ///<summary>
         ///Waypoints of the trajectory (description below).
         ///</summary>
-        public List<Waypoint> Path => RawPath.Select(x=>(Waypoint)x).ToList();
+        public List<Waypoint> Path
+        {
+            get
+            {
+                var result = RawPath?.Select(x => (Waypoint)x)?.ToList();
+                return result ?? new List<Waypoint>();
+            }
+        }
 
         [JsonProperty("path")]
-        public dynamic[][] RawPath { get; set; }
+        public dynamic[][]? RawPath { get; set; }
     }
 }

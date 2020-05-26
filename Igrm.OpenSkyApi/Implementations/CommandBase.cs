@@ -15,6 +15,7 @@ namespace Igrm.OpenSkyApi.Implementations
 {
     public abstract class CommandBase<T, U, V> : ICommandWithResult<U> where V : AbstractValidator<T>, new()
                                                                        where T : IRequestModel
+                                                                       where U : new()
     {
         protected String BaseUri { get { return $"{OpenSkyApiConstants.PROTOCOL}{OpenSkyApiConstants.HOST}{OpenSkyApiConstants.API_ROOT}"; } }
 
@@ -33,6 +34,8 @@ namespace Igrm.OpenSkyApi.Implementations
             _requestModel = requestModel;
             _endPoint = endPoint;
             _validator = new V();
+
+            Result = new U();
         }
 
         protected async Task<U> ProcessRequestAsync(HttpRequestMessage httpRequestMessage)
