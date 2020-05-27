@@ -7,34 +7,37 @@ using System.Text;
 
 namespace Igrm.OpenSkyApi.Builders
 {
-    public interface IAllStateVectorsRequestBuilder : IRequestBuilder
+    public interface IAllStateVectorsRequestBuilder : IRequestBuilder<AllStateVectorsRequestModel>
     {
-        void WithTime(long time);
-        void WithBoundingBox(decimal lamin, decimal lomin, decimal lamax, decimal lomax);
-        void AppendIcao24(string icao24);
+        IAllStateVectorsRequestBuilder WithTime(long time);
+        IAllStateVectorsRequestBuilder WithBoundingBox(decimal lamin, decimal lomin, decimal lamax, decimal lomax);
+        IAllStateVectorsRequestBuilder AppendIcao24(string icao24);
     }
 
     public class AllStateVectorsRequestBuilder : RequestBuilderBase<AllStateVectorsRequestModel, AllStateVectorsRequestModelValidator>, IAllStateVectorsRequestBuilder
     {
         public AllStateVectorsRequestBuilder():base() {}
 
-        public void AppendIcao24(string icao24)
+        public IAllStateVectorsRequestBuilder AppendIcao24(string icao24)
         {
             requestModel.Icao24.Add(icao24);
+            return this;
         }
 
-        public void WithBoundingBox(decimal lamin, decimal lomin, decimal lamax, decimal lomax)
+        public IAllStateVectorsRequestBuilder WithBoundingBox(decimal lamin, decimal lomin, decimal lamax, decimal lomax)
         {
-           requestModel.BoundingBox.Lamin = lamin;
-           requestModel.BoundingBox.Lomin = lomin;
-           requestModel.BoundingBox.Lamax = lamax;
-           requestModel.BoundingBox.Lomax = lomax;
-           requestModel.BoundingBox.IsEmpty = false;
+            requestModel.BoundingBox.Lamin = lamin;
+            requestModel.BoundingBox.Lomin = lomin;
+            requestModel.BoundingBox.Lamax = lamax;
+            requestModel.BoundingBox.Lomax = lomax;
+            requestModel.BoundingBox.IsEmpty = false;
+            return this;
         }
 
-        public void WithTime(long time)
+        public IAllStateVectorsRequestBuilder WithTime(long time)
         {
             requestModel.Time = time;
+            return this;
         }
     }
 }

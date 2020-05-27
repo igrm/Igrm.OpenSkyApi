@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
+using Igrm.OpenSkyApi.Exceptions;
 using Igrm.OpenSkyApi.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Igrm.OpenSkyApi.Builders
 {
-    public abstract class RequestBuilderBase<T, U> : IRequestBuilder
+    public abstract class RequestBuilderBase<T, U> : IRequestBuilder<T>
                                                      where U : AbstractValidator<T>, new()
                                                      where T : IRequestModel, new()
     {
@@ -17,17 +16,22 @@ namespace Igrm.OpenSkyApi.Builders
             requestModel = new T();
         }
 
-        public IRequestModel Build()
+        public T Build()
         {
+            var validationResult = Validate(requestModel);
+            if (!validationResult.IsValid)
+            {
+                throw new ModelValidationException(validationResult.Errors);
+            }
             var copy = requestModel.Clone();
             requestModel = new T();
             return (T)copy;
         }
 
-        protected bool Validate(T requestModel)
+        private ValidationResult Validate(T requestModel)
         {
             var validator = new U();
-            return validator.Validate(requestModel).IsValid;
+            return validator.Validate(requestModel);
         }
     }
 }

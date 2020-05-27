@@ -1,4 +1,5 @@
-﻿using Igrm.OpenSkyApi.Models.Request;
+﻿using Igrm.OpenSkyApi.Builders;
+using Igrm.OpenSkyApi.Models.Request;
 using Igrm.OpenSkyApi.Tests.UnitTests.Fixtures;
 using Moq;
 using Moq.Protected;
@@ -40,7 +41,8 @@ namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
 
                 //ACT
                 IOpenSkyClient client = new OpenSkyClient(_httpClientFixture.HttpClient);
-                var response = client.GetAllStateVectors(new AllStateVectorsRequestModel() { BoundingBox = new BoundingBox() { Lamin = 45.8389m, Lomin = 5.9962m, Lamax = 47.8229m, Lomax = 10.5226m } });
+                var builder = new AllStateVectorsRequestBuilder();
+                var response = client.GetAllStateVectors(builder.WithBoundingBox(45.8389m, 5.9962m, 47.8229m, 10.5226m).Build());
 
                 //ASSERT
                 Assert.True(response.StateVectors.Count > 0);

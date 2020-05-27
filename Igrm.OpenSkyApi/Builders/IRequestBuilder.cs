@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Igrm.OpenSkyApi.Builders
 {
-    public interface IRequestBuilder
+    public interface IRequestBuilder<T>
     {
-        IRequestModel Build();
+        T Build();
     }
 }
