@@ -76,7 +76,8 @@ namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
 
                 //ACT
                 IOpenSkyClient client = new OpenSkyClient(_httpClientFixture.HttpClient);
-                var response = client.GetArrivalsByAirport(new ArrivalsByAirportRequestModel() { Airport = "OMDB", Begin = 1567451701, End = 1567751701 });
+                var builder = new ArrivalsByAirportRequestBuilder();
+                var response = client.GetArrivalsByAirport(builder.WithAirport("OMDB").WithIntervalBegin(1567451701).WithIntervalEnd(1567751701).Build());
 
                 //ASSERT
                 Assert.True(response.Count > 0);
@@ -110,7 +111,8 @@ namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
 
                 //ACT
                 IOpenSkyClient client = new OpenSkyClient(_httpClientFixture.HttpClient);
-                var response = client.GetDeparturesByAirport(new DeparturesByAirportRequestModel() { Airport = "OMDB", Begin = 1567451701, End = 1567751701 });
+                var builder = new DeparturesByAirportRequestBuilder();
+                var response = client.GetDeparturesByAirport(builder.WithAirport("OMDB").WithIntervalBegin(1567451701).WithIntervalEnd(1567751701).Build());
                 //ASSERT
                 Assert.True(response.Count > 0);
             }
@@ -143,7 +145,8 @@ namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
 
                 //ACT
                 IOpenSkyClient client = new OpenSkyClient(_httpClientFixture.HttpClient);
-                var response = client.GetFlightsByAircraft(new FlightsByAircraftRequestModel() { Icao24 = "896471", Begin = 1567451701, End = 1567751701 });
+                var builder = new FlightsByAircraftRequestBuilder();
+                var response = client.GetFlightsByAircraft(builder.WithIcao24("896471").WithIntervalBegin(1567451701).WithIntervalEnd(1567751701).Build());
 
                 //ASSERT
                 Assert.True(response.Count > 0);
@@ -177,7 +180,8 @@ namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
 
                 //ACT
                 IOpenSkyClient client = new OpenSkyClient(_httpClientFixture.HttpClient);
-                var response = client.GetFlightsInTimeInterval(new FlightsInTimeIntervalRequestModel() { Begin = 1565746000, End = 1565751701 });
+                var builder = new FlightsInTimeIntervalRequestBuilder();
+                var response = client.GetFlightsInTimeInterval(builder.WithIntervalBegin(1565746000).WithIntervalEnd(1565751701).Build());
 
                 //ASSERT
                 Assert.True(response.Count > 0);
@@ -211,7 +215,8 @@ namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
 
                 //ACT
                 IOpenSkyClient client = new OpenSkyClient(_httpClientFixture.HttpClient);
-                var response = client.GetOwnStateVectors(new OwnStateVectorsRequestModel() { Serials = new List<long>() { 1 } });
+                var builder = new OwnStateVectorsRequestBuilder();
+                var response = client.GetOwnStateVectors(builder.AppendSerial(1).Build());
 
                 //ASSERT
                 Assert.True(response.StateVectors.Count > 0);
@@ -240,7 +245,8 @@ namespace Igrm.OpenSkyApi.Tests.UnitTests.Facts
 
                 //ACT
                 IOpenSkyClient client = new OpenSkyClient(_httpClientFixture.HttpClient);
-                var response = client.GetTrackByAircraft(new TrackByAircraftRequestModel() { Icao24 = "4b1805", Time = 1567676180 });
+                var builder = new TrackByAircraftRequestBuilder();
+                var response = client.GetTrackByAircraft(builder.WithIcao24("4b1805").WithTime(1567676180).Build());
 
                 //ASSERT
                 Assert.True(response.Path.Count > 0);

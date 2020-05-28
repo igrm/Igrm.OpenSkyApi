@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Igrm.OpenSkyApi.Builders
 {
-    public interface IInterval
+    public interface IInterval<T>
     {
-        void WithIntervalBegin(long time);
-        void WithIntervalEnd(long time);
+        T WithIntervalBegin(long time);
+        T WithIntervalEnd(long time);
     }
 }

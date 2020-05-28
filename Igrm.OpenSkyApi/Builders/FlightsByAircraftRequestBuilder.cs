@@ -6,26 +6,29 @@ using System.Text;
 
 namespace Igrm.OpenSkyApi.Builders
 {
-    public interface IFlightsByAircraftRequestBuilder: IRequestBuilder<FlightsByAircraftRequestModel>, IInterval
+    public interface IFlightsByAircraftRequestBuilder: IRequestBuilder<FlightsByAircraftRequestModel>, IInterval<IFlightsByAircraftRequestBuilder>
     {
-        void WithIcao24(string code);
+        IFlightsByAircraftRequestBuilder WithIcao24(string code);
     }
 
     public class FlightsByAircraftRequestBuilder : RequestBuilderBase<FlightsByAircraftRequestModel, FlightsByAircraftRequestModelValidator>, IFlightsByAircraftRequestBuilder
     {
-        public void WithIcao24(string code)
+        public IFlightsByAircraftRequestBuilder WithIcao24(string code)
         {
             requestModel.Icao24 = code;
+            return this;
         }
 
-        public void WithIntervalBegin(long time)
+        public IFlightsByAircraftRequestBuilder WithIntervalBegin(long time)
         {
             requestModel.Begin = time;
+            return this;
         }
 
-        public void WithIntervalEnd(long time)
+        public IFlightsByAircraftRequestBuilder WithIntervalEnd(long time)
         {
             requestModel.End = time;
+            return this;
         }
     }
 }

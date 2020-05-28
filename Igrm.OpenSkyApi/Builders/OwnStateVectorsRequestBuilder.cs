@@ -8,26 +8,29 @@ namespace Igrm.OpenSkyApi.Builders
 {
     public interface IOwnStateVectorsRequestBuilder : IRequestBuilder<OwnStateVectorsRequestModel>
     {
-        void AppendIcao24(string code);
-        void AppendSerial(long item);
-        void WithTime(long time);
+        IOwnStateVectorsRequestBuilder AppendIcao24(string code);
+        IOwnStateVectorsRequestBuilder AppendSerial(long item);
+        IOwnStateVectorsRequestBuilder WithTime(long time);
     }
 
     public class OwnStateVectorsRequestBuilder : RequestBuilderBase<OwnStateVectorsRequestModel, OwnStateVectorsRequestModelValidator>, IOwnStateVectorsRequestBuilder
     {
-        public void AppendIcao24(string code)
+        public IOwnStateVectorsRequestBuilder AppendIcao24(string code)
         {
             requestModel.Icao24.Add(code);
+            return this;
         }
 
-        public void AppendSerial(long item)
+        public IOwnStateVectorsRequestBuilder AppendSerial(long item)
         {
             requestModel.Serials.Add(item);
+            return this;
         }
 
-        public void WithTime(long time)
+        public IOwnStateVectorsRequestBuilder WithTime(long time)
         {
             requestModel.Time = time;
+            return this;
         }
     }
 }

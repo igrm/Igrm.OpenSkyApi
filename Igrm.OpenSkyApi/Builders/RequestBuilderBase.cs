@@ -21,6 +21,7 @@ namespace Igrm.OpenSkyApi.Builders
             var validationResult = Validate(requestModel);
             if (!validationResult.IsValid)
             {
+                requestModel = new T();
                 throw new ModelValidationException(validationResult.Errors);
             }
             var copy = requestModel.Clone();

@@ -6,22 +6,23 @@ using System.Text;
 
 namespace Igrm.OpenSkyApi.Builders
 {
-    public interface IFlightsInTimeIntervalRequestBuilder : IRequestBuilder<FlightsInTimeIntervalRequestModel>, IInterval
+    public interface IFlightsInTimeIntervalRequestBuilder : IRequestBuilder<FlightsInTimeIntervalRequestModel>, IInterval<IFlightsInTimeIntervalRequestBuilder>
     {
-
     }
 
     public class FlightsInTimeIntervalRequestBuilder : RequestBuilderBase<FlightsInTimeIntervalRequestModel, FlightsInTimeIntervalRequestModelValidator>, IFlightsInTimeIntervalRequestBuilder
     {
 
-        public void WithIntervalBegin(long time)
+        public IFlightsInTimeIntervalRequestBuilder WithIntervalBegin(long time)
         {
             requestModel.Begin = time;
+            return this;
         }
 
-        public void WithIntervalEnd(long time)
+        public IFlightsInTimeIntervalRequestBuilder WithIntervalEnd(long time)
         {
             requestModel.End = time;
+            return this;
         }
     }
 }
